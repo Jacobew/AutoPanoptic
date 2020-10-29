@@ -1,0 +1,74 @@
+# INPUT:
+#   PIXEL_MEAN: [0., 0., 0.]
+INFO: "autopanoptic_head"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  # WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
+  BACKBONE:
+    # CONV_BODY: "R-50-FPN"
+    CONV_BODY: "AutoPanoptic-COCO-FPN-search"
+    FREEZE_CONV_BODY_AT: 0 # from scratch
+    STAGE_REPEATS: [8, 8, 16, 8] # [4, 4, 8, 4]
+    STAGE_OUT_CHANNELS: [-1, 72, 172, 432, 864, 1728] # [-1, 48, 96, 240, 480, 960] 
+  FPN:
+    USE_SYNCBN: False
+    USE_GN: True
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+    STEM_OUT_CHANNELS: 64
+  RPN:
+    USE_FPN: True
+    ANCHOR_STRIDE: (4, 8, 16, 32, 64)
+    PRE_NMS_TOP_N_TRAIN: 2000
+    PRE_NMS_TOP_N_TEST: 1000
+    POST_NMS_TOP_N_TEST: 1000
+    FPN_POST_NMS_TOP_N_TEST: 1000
+  ROI_HEADS:
+    USE_FPN: True
+  ROI_BOX_HEAD:
+    POOLER_RESOLUTION: 7
+    POOLER_SCALES: (0.25, 0.125, 0.0625, 0.03125)
+    POOLER_SAMPLING_RATIO: 2
+    FEATURE_EXTRACTOR: "FPN2MLPFeatureExtractor"
+    PREDICTOR: "FPNPredictor"
+    USE_GN: True #
+  ROI_MASK_HEAD:
+    POOLER_SCALES: (0.25, 0.125, 0.0625, 0.03125)
+    # FEATURE_EXTRACTOR: "MaskRCNNFPNFeatureExtractor"
+    FEATURE_EXTRACTOR: "AutoPanoptic_MaskRCNNFPNFeatureExtractor_search"
+    PREDICTOR: "MaskRCNNC4Predictor"
+    POOLER_RESOLUTION: 14
+    POOLER_SAMPLING_RATIO: 2
+    RESOLUTION: 28
+    SHARE_BOX_FEATURE_EXTRACTOR: False
+    USE_GN: True #
+  SEG_BRANCH:
+    ADD_SEG_BRANCH: True
+    SEGMENT_BRANCH: "AutoPanoptic_Segmentation_Branch_search"
+    DECODER_CHANNEL: 128
+    SUBNET_DEPTH: 3
+    SHARE_SUBNET: True
+    MERGE_OP: "add"
+    CLS_NUM: 54 # 53 stuff + 1 thing
+    LAMDA_INSTANCE: 1.0
+    LAMDA_SEGMENTATION: 0.3
+    JSON_PATH: "'./datasets/coco/annotations/panoptic_val2017.json'"
+  INTER_MODULE:
+    TURN_ON: True
+    NAME: "AutoPanoptic_Inter_module_search"
+  MASK_ON: True
+DATASETS:
+  # TRAIN: ("coco_2014_train", "coco_2014_valminusminival")
+  # TEST: ("coco_2014_minival",)
+  NAME: "COCO"
+  TRAIN: ("coco_2017_train",)
+  TEST: ("coco_2017_val",)
+  NAS_TRAIN: ("coco_2017_nas_train", )
+  NAS_VAL: ("coco_2017_nas_val", )
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+SOLVER:
+  BASE_LR: 0.02
+  WEIGHT_DECAY: 0.0001
+  STEPS: (60000, 80000)
+  MAX_ITER: 90000
