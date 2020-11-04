@@ -2,7 +2,7 @@
 
 This repository provides the implementation of NeurIPS2020 Paper: 
 
-[Auto-Panoptic: Cooperative Multi-Component Architecture Search for Panoptic Segmentation](https://drive.google.com/file/d/16AAx-Rdi4tO22ta0CrFAyMsaaRbgQfCF/view?usp=sharing),
+[Auto-Panoptic: Cooperative Multi-Component Architecture Search for Panoptic Segmentation](https://drive.google.com/file/d/1iJ8AKFrKRsMvhAxmYA5MJRDegIUKWjj0/view?usp=sharing),
 and supplementary materials can be downloaded [here](https://drive.google.com/file/d/1osijWS1HcdZmW0P9Tels3nnAZbXugMRl/view?usp=sharing).
 
 This repository is based on [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [DetNAS](https://github.com/megvii-model/DetNAS).
@@ -81,4 +81,11 @@ We provide our [evaluation log](https://drive.google.com/file/d/1eTybVn4PErK-b4C
 | **Auto-Panoptic(Ours)** | **44.8** | **51.4** | **35.0** |
 
 ## Citations
-Will be available once published.
+```
+@inproceedings{autopanoptic2020, 
+    title={Auto-Panoptic: Cooperative Multi-Component Architecture Search for Panoptic Segmentation}, 
+    author={Wu, Yangxin and Zhang, Gengwei, and Xu, Hang and Liang, Xiaodan and Lin, Liang}, 
+    booktitle={NeurIPS}, 
+    year={2020}
+}
+```
