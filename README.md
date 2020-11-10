@@ -82,10 +82,11 @@ We provide our [evaluation log](https://drive.google.com/file/d/1eTybVn4PErK-b4C
 
 ## Citations
 ```
-@inproceedings{autopanoptic2020, 
+@article{wu2020auto, 
     title={Auto-Panoptic: Cooperative Multi-Component Architecture Search for Panoptic Segmentation}, 
     author={Wu, Yangxin and Zhang, Gengwei, and Xu, Hang and Liang, Xiaodan and Lin, Liang}, 
-    booktitle={NeurIPS}, 
+    journal={Advances in Neural Information Processing Systems},
+    volume={33},
     year={2020}
 }
 ```
